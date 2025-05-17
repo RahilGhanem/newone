@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Project Visualizations</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2c5282;
+            --accent-color: #3182ce;
+            --light-accent: #bee3f8;
+            --success-color: #38a169;
+            --warning-color: #dd6b20;
+            --text-color: #2d3748;
+            --light-text: #718096;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px 0;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation */
+        nav {
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-logo i {
+            font-size: 1.5rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            transition: var(--transition);
+            color: var(--light-text);
+        }
+
+        .nav-tab:hover {
+            color: var(--primary-color);
+            border-bottom-color: var(--light-accent);
+        }
+
+        .nav-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--light-accent);
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 0;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header i {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .note-box {
+            background-color: #fffbeb;
+            border-left: 5px solid var(--warning-color);
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .note-box i {
+            font-size: 1.5rem;
+            color: var(--warning-color);
+        }
+
+        .note-box a {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .note-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin-top: 40px;  
+            min-height: 450px; /* Increased minimum height */
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Ensure card stretches to fill grid row */
+            min-height: 380px; /* Set a minimum height for all cards */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .card-body {
+            padding: 20px;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .visualization-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            display: block;
+        }
+
+        .visualization-img:hover {
+            transform: scale(1.02);
+        }
+
+        .metrics-container {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .metric-item {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 12px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--light-text);
+            margin-top: 5px;
+        }
+
+        /* Interactive Elements */
+        .controls-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            background-color: white;
+            font-size: 1rem;
+        }
+
+        /* Comparison Section */
+        .comparison-section {
+            margin-top: 50px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .performance-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .performance-value {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .excellent {
+            background-color: #48bb78;
+            width: 95%;
+        }
+
+        .good {
+            background-color: #4299e1;
+            width: 85%;
+        }
+
+        .average {
+            background-color: #ecc94b;
+            width: 70%;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-links a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Content Pages */
+        .content-page {
+            display: none;
+        }
+
+        .content-page.active {
+            display: block;
+        }
+
+        /* Preprocessing Section */
+        .preprocessing-steps {
+            margin-top: 30px;
+        }
+
+        .step-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Model Comparison */
+        .model-comparison-chart {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                gap: 5px;
+            }
+
+            .nav-tab {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1> Machine Learning Project Visualizations</h1>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                ML Analytics
+            </div>
+    
+        </div>
+    </nav>
+<!-- Lightbox Overlay -->
+<div id="lightbox-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:2000;">
+    <span id="lightbox-close" style="position:absolute; top:40px; right:60px; font-size:2.5rem; color:white; cursor:pointer; font-weight:bold;">&times;</span>
+    <img id="lightbox-img" src="" alt="Enlarged" style="max-width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.3); background:white;">
+</div>
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Tab Navigation -->
+            <div class="controls-row">
+                <div class="nav-tabs sub-tabs" style="flex: 1;">
+                     <div class="nav-tab active" data-subtab="results" onclick="document.getElementById('sec1').scrollIntoView({ behavior: 'smooth' });"> Data Pre-Processing </div>
+                
+                    <div class="nav-tab active" data-subtab="results" onclick="document.getElementById('sec2').scrollIntoView({ behavior: 'smooth' });"> Results Analysis </div>
+                   
+                </div>
+            </div>
+
+     
+            <div class="cards-grid">
+                <!-- Gallery Item 1 -->
+                <div class="card">
+                    <div class="card-header   " id="sec1"> Numerical Features </div>
+                    <div class="card-body">
+                        <img src="assets/numerical.png" alt="Correlation Heatmap" class="visualization-img">
+                    </div>
+                </div>
+               
+                <div class="card">
+                    <div class="card-header"> Class Distribution</div>
+                    <div class="card-body">
+                        <img src="assets/distribution.png" alt="Class Distribution" class="visualization-img">
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"> Feature Importance </div>
+                    <div class="card-body">
+                        <img src="assets/correlationwithfraudbool.png" alt="Feature Importance" class="visualization-img">
+                    </div>
+                </div> 
+                <div class="card">
+                    <div class="card-header">Correlation Matrix</div>
+                    <div class="card-body">
+                        <img src="assets/correlationmatrix.png" alt="correlationmatrix" class="visualization-img">
+                    </div>
+                </div>
+            </div>
+
+
+            <section class="results-analysis-section" id="sec2" style="margin-top: 50px;">
+                <div class="section-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h2>Results Analysis</h2>
+                </div>
+                <div class="cards-grid">
+                    <!-- Example Result Card 1 -->
+                    <div class="card">
+                        <div class="card-header"> Radar Chart</div>
+                        <div class="card-body">
+                            <img src="assets/result1.png" alt="Model Accuracy" class="visualization-img">
+                        </div>
+                    </div>
+                    <!-- Example Result Card 2 -->
+                    <div class="card">
+                        <div class="card-header">Confusion Matrices</div>
+                        <div class="card-body">
+                            <img src="assets/result2.png" alt="ROC Curve" class="visualization-img">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"> Top models </div>
+                        <div class="card-body">
+                            <img src="assets/result3.png" alt="ROC Curve" class="visualization-img">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">ROC Curves</div>
+                        <div class="card-body">
+                            <img src="assets/result4.png" alt="ROC Curve" class="visualization-img">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Aggregate scores</div>
+                        <div class="card-body">
+                            <img src="assets/result5.png" alt="ROC Curve" class="visualization-img">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Metrics comparison</div>
+                        <div class="card-body">
+                            <img src="assets/result6.png" alt="ROC Curve" class="visualization-img">
+                        </div>
+                    </div>
+                  
+                </div> 
+            </section>
+                  
+        </div>
+    </main>
+    <script>
+
+document.querySelectorAll('.visualization-img').forEach(img => {
+    img.addEventListener('click', function() {
+        document.getElementById('lightbox-img').src = img.src;
+        document.getElementById('lightbox-overlay').style.display = 'flex';
+    });
+});
+document.getElementById('lightbox-close').onclick = function() {
+    document.getElementById('lightbox-overlay').style.display = 'none';
+};
+document.getElementById('lightbox-overlay').onclick = function(e) {
+    if (e.target === this) this.style.display = 'none';
+};
+</script>
